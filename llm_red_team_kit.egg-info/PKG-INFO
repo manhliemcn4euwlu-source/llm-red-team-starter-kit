@@ -1,0 +1,85 @@
+Metadata-Version: 2.4
+Name: llm-red-team-kit
+Version: 1.0.0
+Summary: Zero-dependency LLM red-team scanner: 15 probes, 6 attack categories, one-command report.
+Author-email: xydhw <xydhw@users.noreply.gitee.com>
+License: MIT
+Project-URL: Homepage, https://gitee.com/xydhw/llm-red-team-starter-kit
+Keywords: llm,security,red-team,jailbreak,prompt-injection,ai-safety
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Security
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: license-file
+
+# LLM Red Team Starter Kit
+
+一套**开箱即用**的 LLM 红队扫描包：15 个攻击探针（6 大类）+ 零依赖 CLI + 一键 Markdown 报告。
+给你的 Chatbot / Agent 做发布前安全自检，5 分钟出结果。
+
+## 功能
+- 6 大攻击类别 × 15 探针：jailbreak（越狱）、prompt_injection（提示注入）、sysprompt_extraction（系统提示词抽取）、safety_bypass（安全绕过）、tool_abuse（工具滥用）、encoding（编码混淆）
+- 零依赖：纯 Python 3.8+ 标准库，解压即用，无需 pip install
+- 离线演示模式 `--demo`：不联网、不需要 API key，先看清工具形态
+- 真实扫描：对接任意 **OpenAI 兼容** `/chat/completions` 端点（OpenAI / OpenRouter / 本地 Ollama / vLLM / 托管服务）
+- 启发式信号判定 + 人工复核标记，输出 Markdown 报告与 JSON 结果
+
+## 安装
+无需安装。解压 ZIP，确保有 Python 3.8+：
+
+```bash
+unzip llm-red-team-starter-kit.zip
+cd llm-red-team-starter-kit
+python3 -m redteam --help
+```
+
+## 用法
+
+```bash
+# 1) 列出全部探针
+python3 -m redteam --list
+
+# 2) 离线演示（无需网络/密钥）
+python3 -m redteam --demo --report demo-report.md
+
+# 3) 扫描真实 LLM（OpenAI 兼容端点）
+python3 -m redteam \
+  --base-url https://api.openai.com/v1 \
+  --api-key $OPENAI_API_KEY \
+  --model gpt-4o-mini \
+  --report report.md --json-out results.json
+
+# 本地 Ollama 示例
+python3 -m redteam --base-url http://localhost:11434/v1 \
+  --api-key ollama --model llama3.1 --report report.md
+```
+
+只测单类：`--category jailbreak`。
+
+## 判定说明
+报告中的 "flagged" 是基于关键词信号的**启发式标记**，不是结论。攻击成功与否请人工复核被标记的响应。
+
+## 质量门禁
+自带 pytest 测试（22 用例），覆盖探针渲染/扫描判定/报告生成/CLI 端到端：
+
+```bash
+python3 -m pytest tests/ -v
+```
+
+## 定价建议
+- 建议定价 **$19**（单开发者授权），团队版 $49
+- 支持 pay-what-you-want：$5 下限 / $19 锚点 / $50 上限
+- 竞品参考：Gumroad 上 Claude Code 技能/规则包主流 $9–49（见 LISTING.md 调研）
+
+## 卖点
+1. **5 分钟安全自检**：15 探针一键跑完，Markdown 报告直接贴进发布评审
+2. **零环境**：纯标准库、解压即用；离线演示模式无需密钥即可体验
+3. **端点无关**：任何 OpenAI 兼容 API 都能扫，含本地模型
+
+## 许可
+MIT（见 LICENSE）。探针分类学参考 garak（NVIDIA, Apache-2.0）与 promptfoo（MIT）；探针文本为独立编写。
+
+## 免责声明
+仅用于**你拥有或已获授权**的 AI 系统安全测试。禁止用于攻击他人系统。
