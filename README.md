@@ -22,7 +22,7 @@
 - **启发式信号判定 + 人工复核标记**——不替你做定性，这是 LLM 红队的诚实做法
 - **可独立复核**：每份报告带 Repro manifest（引擎版本 + 探针库 sha256 指纹 + 精确探针集 + 目标 + repro-hash），独立重跑同 corpus+probes+target 即可比对 verdict
 - **25 个离线测试全绿**，CI 可集成
-- **在线免注册试用**：贴你的 agent system prompt 到 <https://fighting-tumor-brunette-hip.trycloudflare.com/review>，~35 秒出 8 探针风险分 + 永久可复验链接（含 repro manifest）
+- **在线免注册试用**：贴你的 agent system prompt 到 <https://llmrt-companion.manhliemcn4euwlu.workers.dev/review>，~35 秒出 8 探针风险分 + 永久可复验链接（含 repro manifest）
 
 ## 快速开始
 ```bash
@@ -69,7 +69,7 @@ spec JSON 字段：system / tools(OpenAI function schema) / tool_bodies / canary
 
 ## 定价（USDT，免 KYC，P2P）
 - **核心套件：免费**——本仓库，MIT 协议（15 探针 / 6 类）。
-- **在线免费 8 探针扫描**：贴 prompt 即出风险分，无注册无 key：<https://fighting-tumor-brunette-hip.trycloudflare.com/review>
+- **在线免费 8 探针扫描**：贴 prompt 即出风险分，无注册无 key：<https://llmrt-companion.manhliemcn4euwlu.workers.dev/review>
 - **完整包 — USDT 3（ERC-20 或 Lightning `xydhw@api.babyblueviper.com`）**：35 探针 / 17 攻击类 / 0-100 风险分 / CI 门禁 / 逐类修复建议 / 品牌化报告（含 repro manifest）。链上确认后自动交付，无需人工。
 - **定制服务 — USDT 50+**：针对你 Agent 的工具面定制探针 + 完整报告。
 
