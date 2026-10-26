@@ -51,4 +51,5 @@ def test_requires_target():
 
 def test_version():
     r = run_cli("--version")
-    assert r.returncode == 0 and "redteam 1.0.0" in r.stdout
+    from redteam import __version__
+    assert r.returncode == 0 and ("redteam %s" % __version__) in r.stdout

@@ -24,7 +24,36 @@
 - **可对接任意 OpenAI 兼容端点**：OpenAI / OpenRouter / Ollama / vLLM / 自托管
 - **启发式信号判定 + 人工复核标记**——不替你做定性，这是 LLM 红队的诚实做法
 - **可独立复核**：每份报告带 Repro manifest（引擎版本 + 探针库 sha256 指纹 + 精确探针集 + 目标 + repro-hash），独立重跑同 corpus+probes+target 即可比对 verdict
-- **32 个离线测试全绿**，CI 可集成
+- **52 个离线测试全绿**，CI 可集成
+- **MCP server 内置**：一条命令接进 Claude / Cursor / 任何 MCP 客户端，扫描与审计变成工具调用
+
+## 作为 MCP server 接入（stdio，零配置）
+
+同一套引擎直接暴露成 MCP 工具，任何支持 stdio 的客户端（Claude Desktop、Cursor、Cline、自建 agent）都能调用：
+
+```bash
+pip install git+https://github.com/manhliemcn4euwlu-source/llm-red-team-starter-kit
+uvx --from git+https://github.com/manhliemcn4euwlu-source/llm-red-team-starter-kit llm-red-team-mcp
+```
+
+客户端配置（Claude Desktop / Cursor 通用）：
+
+```json
+{
+  "mcpServers": {
+    "llm-red-team": { "command": "llm-red-team-mcp" }
+  }
+}
+```
+
+| 工具 | 联网 | 作用 |
+|---|---|---|
+| audit_spec | 否 | 静态审计 system prompt / 工具描述，返回 0-100 分 + 逐维度证据 + 可粘贴处方 |
+| list_probes | 否 | 列出 24 / 44 个探针及其类别 |
+| demo_scan | 否 | 对内置 mock 目标跑全量探针，零凭据看报告形状 |
+| scan_endpoint | 是 | 对 OpenAI 兼容端点跑探针（仅限已授权目标） |
+
+audit_spec 是确定性的：同一段文本永远同一分数，不调用模型、不联网，可直接进 CI 门禁。它测的是你写的 spec 有没有可被劫持的结构，与动态探针测底层模型对齐度互补。这两件事常被混为一谈，于是扫出满分却分不清问题在模型还是在 prompt。
 - **在线免注册试用**：贴你的 agent system prompt 到 <https://qdmbzzwftor2rgmxupyyasguhy.srv.us/review>，~35 秒出 8 探针风险分 + 永久可复验链接（含 repro manifest）
 
 ## 快速开始
@@ -35,7 +64,7 @@ python3 -m redteam --list          # 列出全部探针
 python3 -m redteam --demo           # 离线演示，无需网络/密钥
 python3 -m redteam --base-url https://api.openai.com/v1 \
   --api-key $KEY --model gpt-4o-mini --report report.md
-python3 -m pytest tests/ -q         # 32 个测试，全离线
+python3 -m pytest tests/ -q         # 52 个测试，全离线
 ```
 
 ## 真实输出样例（--demo 模式实跑）
