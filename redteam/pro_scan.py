@@ -1,4 +1,4 @@
-"""PRO 扫描：base 15 + pro 15 探针，统一结果。"""
+"""PRO 扫描：base 24 + pro 20 探针（44 总），统一结果。"""
 from .probes import PROBES, render
 from .pro_probes import PROBES_PRO
 from .scanner import judge, query_openai_compatible

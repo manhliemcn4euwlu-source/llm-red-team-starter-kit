@@ -33,7 +33,7 @@ LLM Red Team Starter Kit 是面向 LLM 应用的现成攻击包：15 个精心�
 任何 OpenAI 兼容 /chat/completions 端点均可，含本地模型（Ollama、vLLM）。
 
 ## 3 条卖点
-1. **5 分钟出报告** — 15 探针一键跑完，Markdown 报告直接进发布评审，不依赖任何框架
+1. **5 分钟出报告** — 24 探针一键跑完（PRO 44 探针），Markdown 报告直接进发布评审，不依赖任何框架
 2. **零环境、可信任** — 纯 Python 标准库，解压即用；`--demo` 离线模式无密钥也能先看形态，测试套件 22 用例全绿
 3. **端点无关** — 扫任何 OpenAI 兼容 API（OpenAI/OpenRouter/本地 Ollama/vLLM），一个命令切模型
 

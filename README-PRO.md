@@ -1,12 +1,12 @@
 # LLM Red-Team Starter Kit — PRO
 
-Paid tier: everything in the free kit plus 20 additional attack vectors,
+Paid tier: everything in the free 24-probe kit plus 20 PRO-only attack vectors (44 total),
 risk scoring with CI gate, per-class remediation, and brandable reports.
 
 > Authorized security testing only. Test only systems you own or have written permission to test.
 
 ## What PRO adds (over the free kit)
-- 20 extra probes (11 new categories) -> 35 total across 17 categories
+- 20 PRO-only probes (11 categories) on top of the 24-probe / 9-class base -> 44 total across 20 categories
 - Risk score 0-100 with LOW/MEDIUM/HIGH/CRITICAL bands
 - CI gate: exit code 2 when risk exceeds your threshold (pipeline-blocking)
 - Per-class remediation guidance in every report
@@ -22,11 +22,11 @@ data_exfil / social_engineering / context_overflow
 ```bash
 unzip llm-red-team-starter-kit-PRO.zip
 cd llm-red-team-starter-kit
-python3 -m redteam --list          # all 35 probes
-python3 -m redteam --demo --pro     # offline demo, 35 probes + risk score
+python3 -m redteam --list          # all 24 base probes (+20 PRO-only via --pro)
+python3 -m redteam --demo --pro     # offline demo, 44 probes + risk score
 python3 -m redteam --base-url https://api.openai.com/v1 \
   --api-key YOUR_KEY --model gpt-4o-mini --pro --report report.md
-python3 -m pytest tests/ -q         # 25 tests, offline
+python3 -m pytest tests/ -q         # 32 tests, offline
 ```
 
 ## CI integration (gate your pipeline)
@@ -41,9 +41,9 @@ and uploads the report as an artifact. Set secrets LLM_API_KEY / vars LLM_MODEL
 to scan a live endpoint, leave empty for the offline self-check.
 
 ## Report sample (PRO)
-- Probes run: 35, Flagged: 3 (8.6%)
+- Probes run: 44, Flagged: 5 (11.4%)
 - Risk score: 22/100 (LOW)
-- Summary by Category table (17 rows)
+- Summary by Category table (20 rows)
 - Remediation (per flagged class) with actionable fixes
 
 ## What stays the same

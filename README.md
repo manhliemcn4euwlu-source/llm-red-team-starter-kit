@@ -1,11 +1,11 @@
 # LLM 红队扫描套件（LLM Red Team Starter Kit）
 
-**零依赖的 LLM 红队 / 安全探针工具包**。15 个攻击探针，覆盖 6 大攻击类别，一条命令出 Markdown 报告。纯 Python 3.8+ 标准库——无需 pip install、无框架。指向任意 OpenAI 兼容端点，约 5 分钟拿到结构化红队报告。
+**零依赖的 LLM 红队 / 安全探针工具包**。24 个攻击探针，覆盖 9 大攻击类别，一条命令出 Markdown 报告。纯 Python 3.8+ 标准库——无需 pip install、无框架。指向任意 OpenAI 兼容端点，约 5 分钟拿到结构化红队报告。
 
 > **仅限授权安全测试。** 只测试你拥有或获得书面许可的系统。
 
 ## 它做什么
-对目标 LLM 端点批量运行 15 个对抗提示（6 大类），生成 Markdown + JSON 报告，含逐探针的信号匹配与人工复核标记：
+对目标 LLM 端点批量运行 24 个对抗提示（9 大类），生成 Markdown + JSON 报告，含逐探针的信号匹配与人工复核标记：
 
 | 类别 | 探针数 | 说明 |
 |---|---|---|
@@ -15,14 +15,17 @@
 | safety_bypass 安全绕过 | 2 | 多轮渐进 / 上下文污染 |
 | tool_abuse 工具滥用 | 2 | 越权调用 / 参数注入 |
 | encoding 编码混淆 | 2 | base64 / 同音替换 |
+| mcp_trust MCP 信任 | 3 | 服务器身份伪造 / 元数据当策略 / 结果继承 |
+| action_binding 动作绑定 | 3 | 参数变异 / 内容副作用 / 重试重复 |
+| memory_poison 记忆投毒 | 3 | 持久偏好投毒 / 角色冒充 / 租户串读 |
 
 ## 为什么用它
 - **零依赖**：解压即用，`python3 -m redteam --demo` 立刻看效果
 - **可对接任意 OpenAI 兼容端点**：OpenAI / OpenRouter / Ollama / vLLM / 自托管
 - **启发式信号判定 + 人工复核标记**——不替你做定性，这是 LLM 红队的诚实做法
 - **可独立复核**：每份报告带 Repro manifest（引擎版本 + 探针库 sha256 指纹 + 精确探针集 + 目标 + repro-hash），独立重跑同 corpus+probes+target 即可比对 verdict
-- **25 个离线测试全绿**，CI 可集成
-- **在线免注册试用**：贴你的 agent system prompt 到 <https://llmrt-companion.manhliemcn4euwlu.workers.dev/review>，~35 秒出 8 探针风险分 + 永久可复验链接（含 repro manifest）
+- **32 个离线测试全绿**，CI 可集成
+- **在线免注册试用**：贴你的 agent system prompt 到 <https://qdmbzzwftor2rgmxupyyasguhy.srv.us/review>，~35 秒出 8 探针风险分 + 永久可复验链接（含 repro manifest）
 
 ## 快速开始
 ```bash
@@ -32,12 +35,12 @@ python3 -m redteam --list          # 列出全部探针
 python3 -m redteam --demo           # 离线演示，无需网络/密钥
 python3 -m redteam --base-url https://api.openai.com/v1 \
   --api-key $KEY --model gpt-4o-mini --report report.md
-python3 -m pytest tests/ -q         # 25 个测试，全离线
+python3 -m pytest tests/ -q         # 32 个测试，全离线
 ```
 
 ## 真实输出样例（--demo 模式实跑）
 ```
-[redteam] 15 probes, 3 flagged
+[redteam] 24 probes, 4 flagged
 | Category | Probes | Flagged |
 | encoding | 2 | 2 |
 | jailbreak | 3 | 0 |
@@ -68,9 +71,9 @@ spec JSON 字段：system / tools(OpenAI function schema) / tool_bodies / canary
 
 
 ## 定价（USDT，免 KYC，P2P）
-- **核心套件：免费**——本仓库，MIT 协议（15 探针 / 6 类）。
-- **在线免费 8 探针扫描**：贴 prompt 即出风险分，无注册无 key：<https://llmrt-companion.manhliemcn4euwlu.workers.dev/review>
-- **完整包 — USDT 3（ERC-20 或 Lightning `xydhw@api.babyblueviper.com`）**：35 探针 / 17 攻击类 / 0-100 风险分 / CI 门禁 / 逐类修复建议 / 品牌化报告（含 repro manifest）。链上确认后自动交付，无需人工。
+- **核心套件：免费**——本仓库，MIT 协议（24 探针 / 9 类）。
+- **在线免费 8 探针扫描**：贴 prompt 即出风险分，无注册无 key：<https://qdmbzzwftor2rgmxupyyasguhy.srv.us/review>
+- **完整包 PRO — USDT 3（ERC-20 或 Lightning `xydhw@api.babyblueviper.com`）**：44 探针 / 20 攻击类（24 基础 + 20 PRO 专属）/ 0-100 风险分 / CI 门禁 / 逐类修复建议 / 品牌化报告（含 repro manifest）。链上确认后自动交付，无需人工。
 - **定制服务 — USDT 50+**：针对你 Agent 的工具面定制探针 + 完整报告。
 
 **收款：** USDT（ERC-20）至 `0x17C46B5Dac10fED584F1d2bB7387288e20AA76Bb`，备注 = 你的邮箱或 Nostr npub。链上确认 24h 内交付。

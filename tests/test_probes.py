@@ -6,11 +6,19 @@ from redteam.probes import PROBES, all_probes, categories, render
 
 def test_all_categories_present():
     assert set(categories()) == {"jailbreak", "prompt_injection", "sysprompt_extraction",
-                                 "safety_bypass", "tool_abuse", "encoding"}
+                                 "safety_bypass", "tool_abuse", "encoding",
+                                 "mcp_trust", "action_binding", "memory_poison"}
 
 
-def test_probe_count_at_least_15():
-    assert len(all_probes()) >= 15
+def test_new_categories_have_three_probes_each():
+    for cat in ("mcp_trust", "action_binding", "memory_poison"):
+        assert len(PROBES[cat]) == 3, cat
+        for probe in PROBES[cat]:
+            assert probe["id"].startswith(("mcp", "bind", "mem")[("mcp_trust", "action_binding", "memory_poison").index(cat)]), probe["id"]
+
+
+def test_probe_count_at_least_24():
+    assert len(all_probes()) >= 24
 
 
 def test_render_fills_request_placeholder():
